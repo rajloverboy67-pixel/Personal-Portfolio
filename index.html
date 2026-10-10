@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHROMA-99 // Alex Vance — Creative Technologist</title>
+  <meta name="description" content="Alex Vance — Creative Technologist & Digital Craftsman. Interactive 1990s CRT portfolio with Three.js, WebGL shaders, and broadcast-deck UI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <a class="micro" href="#archive" style="position:absolute;left:-999px">Skip to archive</a>
+  <div class="site">
+    <header class="top-shell">
+      <div class="brand">
+        <div class="brand-mark">SGI</div>
+        <div>
+          <h1>CHROMA-99</h1>
+          <small>AV ARCHIVE // 001-TRINITRON</small>
+        </div>
+      </div>
+      <div class="shell-status">
+        <span class="meta-chip"><span class="dot amber"></span> LOCK: 1080i NTSC</span>
+        <span class="meta-chip"><span class="dot"></span> SYS: ONLINE</span>
+      </div>
+      <nav class="nav-pills" aria-label="Primary">
+        <button type="button" class="active" data-nav="broadcast">Broadcast /<br />Showcase</button>
+        <button type="button" data-nav="specs">Tech Specs /<br />About</button>
+        <button type="button" data-nav="contact">Transmissions /<br />Contact</button>
+        <button type="button" data-nav="vcr">VCR<br />Archive</button>
+        <button type="button" id="beep-fx" aria-pressed="true" class="active">BEEP FX<br />[ON]</button>
+        <button type="button" class="pwr" id="pwr" title="Power">PWR</button>
+      </nav>
+    </header>
+
+    <div class="program-feed">
+      <span><span class="rec">● REC</span> &nbsp; <span id="rec-clock">00:14:18</span> &nbsp; PROGRAM FEED: SELECTED WORKS // 1999–2025</span>
+      <span>UHF <span id="uhf">472.20</span> MHz &nbsp; ● SYNC LOCK: 59.94 Hz</span>
+    </div>
+
+    <section class="hero">
+      <div>
+        <div class="kicker">TRANSMISSION READY &nbsp; SYS_ID: AV-1994-PROTOTYPE</div>
+        <h2>ALEX VANCE — CREATIVE TECHNOLOGIST &amp; DIGITAL CRAFTSMAN</h2>
+      </div>
+      <div>
+        <p>Architecting high-fidelity interactive systems, WebGL shaders, spatial computing prototypes, and digital artifacts.</p>
+        <div class="hero-meta">BASED IN TOKYO / BERLIN — 001 TRINITRON ENGINE ACTIVE</div>
+      </div>
+    </section>
+
+    <div class="voltage-row">
+      <span>● HIGH VOLTAGE CRT 24.8kV &nbsp;&nbsp; BARCODE // 4982.777.0001</span>
+      <span>MADE IN KYOTO 1994 &nbsp; INTEL INSIDE 64MB VRAM</span>
+    </div>
+
+    <section class="deck" aria-label="1990s CRT Broadcast Deck">
+      <aside class="panel">
+        <div class="panel-head">
+          <h3>TUNER PRESETS</h3>
+          <button type="button" class="ghost-btn" id="auto-scan" style="padding:4px 8px;font-size:9px">AUTO-SCAN</button>
+        </div>
+        <div class="channel-list" role="listbox" aria-label="Channel presets">
+          <button class="channel-btn active" data-channel="0" type="button"><span class="led"></span><span>CH 03 NEO-SYNTH OS</span><span>STEREO</span></button>
+          <button class="channel-btn" data-channel="1" type="button"><span class="led"></span><span>CH 05 VIRTUAL HORIZON</span><span>R/W</span></button>
+          <button class="channel-btn" data-channel="2" type="button"><span class="led"></span><span>CH 08 HYPER-KINETIC</span><span>NTSC</span></button>
+          <button class="channel-btn" data-channel="3" type="button"><span class="led"></span><span>CH 12 CHRONO-PULSE</span><span>RGB</span></button>
+        </div>
+        <div class="routing">
+          DECK SOURCE ROUTING
+          <div class="toggles">
+            <button type="button" data-route="broadcast" class="active">BROADCAST</button>
+            <button type="button" data-route="tape">VCR TAPE</button>
+          </div>
+        </div>
+        <div class="vu">
+          VU SIGNAL LEVEL &nbsp; <span id="vu-num">+2.4 dB</span>
+          <div class="vu-bar" aria-hidden="true"><div class="vu-fill"></div></div>
+        </div>
+      </aside>
+
+      <div class="crt-wrap">
+        <canvas id="tv-canvas" aria-label="Interactive 3D CRT television"></canvas>
+        <div class="crt-hud">
+          <div>
+            <div class="ch" id="hud-ch">CH-03 NTSC</div>
+            <div class="ch" id="hud-sub" style="opacity:.7;font-size:10px">NEO-SYNTH // ACTIVE</div>
+          </div>
+          <div class="lock">● 59.94 FPS LOCKED</div>
+        </div>
+        <div class="crt-caption">
+          <span>SONY TRINITRON HR PRO / BVM-20F1U RGB COMPONENT</span>
+          <span>SYNC: COMPOSITE</span>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <div class="panel-head">
+          <h3>RASTER CALIBRATION</h3>
+          <span class="micro">ANALOG</span>
+        </div>
+        <div class="calib-grid">
+          <button class="gauge" id="btn-contrast" type="button">
+            <div class="gauge-dial" aria-hidden="true"></div>
+            <label>CONTRAST / TONE</label>
+            <span id="contrast-val">VAL: 84%</span>
+          </button>
+          <button class="gauge" id="btn-fine" type="button">
+            <div class="gauge-dial cyan" aria-hidden="true"></div>
+            <label>FINE TUNING</label>
+            <span id="fine-val">DELTA: +0.00</span>
+          </button>
+        </div>
+        <div class="mini-toggles">
+          <button type="button" id="btn-tracking" class="active">TRACKING VCR<br />AUTO PHASE</button>
+          <button type="button" id="btn-convergence">CONVERGENCE<br />HEX POLAR</button>
+        </div>
+        <button type="button" class="danger-btn" id="degauss">TRIGGER DE-GAUSS</button>
+        <div class="flicker-row">
+          <span>CRT FLICKER FX:</span>
+          <button type="button" id="btn-flicker" class="ghost-btn" style="padding:4px 8px">STATUS: ON</button>
+        </div>
+      </aside>
+    </section>
+
+    <section class="telemetry" aria-label="Active project telemetry">
+      <div>
+        <div class="tele-meta">
+          <div><b>BROADCAST TARGET</b><span id="tele-target">NEO-SYNTH OS v2.4</span></div>
+          <div><b>GRAPHICS ENGINE</b><span id="tele-engine">WebGL / Three.js / WebAudio</span></div>
+          <div><b>TIMESTAMP</b><span>2024 DEPLOYMENT</span></div>
+        </div>
+        <div class="recognition">RECOGNITION ● <span id="tele-rec">Awwwards Site of the Day</span></div>
+      </div>
+      <div class="tele-actions">
+        <button class="btn btn-primary" id="btn-live" type="button">LAUNCH LIVE DECK ↗</button>
+        <button class="ghost-btn" id="btn-repo" type="button">&lt;/&gt; INSPECT REPO</button>
+        <button class="ghost-btn" id="btn-spec" type="button">READ SPEC SHEET</button>
+      </div>
+    </section>
+
+    <section class="archive" id="archive">
+      <div class="archive-head">
+        <div>
+          <div class="micro">CASSETTE CAROUSEL ● RGB BUMPS</div>
+          <h2>BROADCAST FREQUENCY ARCHIVE</h2>
+        </div>
+        <div class="micro">SORT: CHRONOLOGICAL // RACK 01–04 NTSC 525</div>
+      </div>
+      <div class="grid" id="archive-grid"></div>
+    </section>
+
+    <div class="legal">
+      <span>© 1999–2025 ALEX VANCE. ALL SIGNALS RESERVED. RASTER CALIBRATION TYPE-IV</span>
+      <span>NTSC/PAL 525-LINE &nbsp; WORKSTATION SPEC &nbsp; TERMINAL TELNET</span>
+    </div>
+  </div>
+
+  <footer class="footer-bar">
+    <span>TAPE DECK // CH-A ●</span>
+    <span>SMPTE TC: <b id="smpte">01:42:58:12</b></span>
+    <span>BEAM CURRENT: <b>24.8 kV NOMINAL</b></span>
+    <span>FIELD SCAN: <b>59.94 Hz FIELD-B</b></span>
+  </footer>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true">
+    <div id="overlay-body"></div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
